@@ -31,12 +31,9 @@ const ExchangeFactory = {
       static _instantiateCCXT () {
         const exchange = new ccxt[ExchangeCCXT.exchangeName]()
 
-        // TODO
-        // if (!exchange.hasCORS) {
-        //   exchange.proxy = 'https://cors-anywhere.herokuapp.com/'
-        // }
-
-        exchange.proxy = 'https://cors-anywhere.herokuapp.com/'
+        if (!exchange.hasCORS) {
+          exchange.proxy = 'https://cors-anywhere.herokuapp.com/'
+        }
 
         return exchange
       }

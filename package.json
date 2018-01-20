@@ -20,7 +20,7 @@
     "blockchain"
   ],
   "dependencies": {
-    "ccxt": "^1.10.753",
+    "ccxt": "^1.10.784",
     "node-fetch": "^1.7.3",
     "nonce": "^1.0.4",
     "url-search-params": "^0.10.0"
