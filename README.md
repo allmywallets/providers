@@ -12,7 +12,7 @@ npm install @allmywallets/providers
 ## Usage
 ``` js
 const Explorer = require('@allmywallets/providers').explorer('ethereum.etherscan')
-const explorer = new Explorer()
+const explorer = new Explorer();
 
 (async function () {
   const res = await explorer
@@ -21,6 +21,6 @@ const explorer = new Explorer()
       .exec()
 
   console.log(res[0].balances)
+  console.log(res[0].transactions)
 }()).catch(console.log)
-
 ```
