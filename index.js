@@ -3,8 +3,6 @@ const ExchangeCCXTFactory = require('./src/providers/ExchangeCCXT')
 module.exports = {
   explorer: function (explorerName) {
     switch (explorerName) {
-      case 'binance.binance':
-        return require('./src/providers/ExchangeBinance')
       case 'bitcoin.blockexplorer':
         return require('./src/providers/BitcoinBlockExplorer')
       case 'cryptoid.cryptoid':
@@ -13,8 +11,6 @@ module.exports = {
         return require('./src/providers/EthereumEtherscan')
       case 'iota.native':
         return require('./src/providers/IotaNative')
-      case 'poloniex.poloniex':
-        return require('./src/providers/ExchangePoloniex')
       case 'bitcoin.mockexplorer':
         return require('./src/providers/MockExplorer')
       default:
@@ -28,7 +24,7 @@ module.exports = {
     }
   },
   list: function () {
-    const providers = ['binance.binance', 'bitcoin.blockexplorer', 'cryptoid.cryptoid', 'ethereum.etherscan', 'iota.native', 'poloniex.poloniex', 'bitcoin.mockexplorer']
+    const providers = ['bitcoin.blockexplorer', 'cryptoid.cryptoid', 'ethereum.etherscan', 'iota.native', 'bitcoin.mockexplorer']
     return providers.concat(ExchangeCCXTFactory.getAvailableExchanges().map(exchangeName => 'exchange.' + exchangeName))
   }
 }
