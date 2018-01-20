@@ -1,22 +1,22 @@
-const ExchangeCCXTFactory = require('./src/explorers/ExchangeCCXT')
+const ExchangeCCXTFactory = require('./src/providers/ExchangeCCXT')
 
 module.exports = {
   explorer: function (explorerName) {
     switch (explorerName) {
       case 'binance.binance':
-        return require('./src/explorers/ExchangeBinance')
+        return require('./src/providers/ExchangeBinance')
       case 'bitcoin.blockexplorer':
-        return require('./src/explorers/BitcoinBlockExplorer')
+        return require('./src/providers/BitcoinBlockExplorer')
       case 'cryptoid.cryptoid':
-        return require('./src/explorers/CryptoID')
+        return require('./src/providers/CryptoID')
       case 'ethereum.etherscan':
-        return require('./src/explorers/EthereumEtherscan')
+        return require('./src/providers/EthereumEtherscan')
       case 'iota.native':
-        return require('./src/explorers/IotaNative')
+        return require('./src/providers/IotaNative')
       case 'poloniex.poloniex':
-        return require('./src/explorers/ExchangePoloniex')
+        return require('./src/providers/ExchangePoloniex')
       case 'bitcoin.mockexplorer':
-        return require('./src/explorers/MockExplorer')
+        return require('./src/providers/MockExplorer')
       default:
         const split = explorerName.split('.')
         if (split && split.length === 2 && split[0] === 'exchange') {

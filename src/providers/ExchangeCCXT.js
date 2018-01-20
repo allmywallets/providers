@@ -1,6 +1,6 @@
 const ccxt = require('ccxt')
 
-const AbstractExchangeExplorer = require('./AbstractExchangeExplorer')
+const AbstractExchangeExplorer = require('./AbstractExchangeProvider')
 const NotSupportedCurrencyError = require('../errors/NotSupportedCurrencyError')
 
 const ExchangeFactory = {

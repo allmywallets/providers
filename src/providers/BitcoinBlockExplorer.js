@@ -1,4 +1,4 @@
-const AbstractExplorer = require('./AbstractExplorer')
+const AbstractExplorer = require('./AbstractProvider')
 
 const API_URL = 'https://blockexplorer.com/api'
 

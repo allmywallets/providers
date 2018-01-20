@@ -1,4 +1,4 @@
-const AbstractExplorer = require('./AbstractExplorer')
+const AbstractExplorer = require('./AbstractProvider')
 const NotSupportedCurrencyError = require('../errors/NotSupportedCurrencyError')
 
 // TODO : cors

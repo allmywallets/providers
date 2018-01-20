@@ -1,4 +1,4 @@
-const AbstractExplorer = require('./AbstractExplorer')
+const AbstractExplorer = require('./AbstractProvider')
 const ApiKeyPermissionError = require('../errors/ApiKeyPermissionError')
 const OnlyEmptyBalancesFound = require('../errors/OnlyEmptyBalancesFound')
 

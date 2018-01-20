@@ -193,7 +193,6 @@ class AbstractExplorer {
     throw new Error('This method should be implemented by child class')
   }
   async _getAddresses (address) {
-    console.log(address)
     return this.tickers.map(ticker => address)
   }
 

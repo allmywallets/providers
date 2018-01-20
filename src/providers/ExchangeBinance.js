@@ -1,4 +1,4 @@
-const AbstractExchangeExplorer = require('./AbstractExchangeExplorer')
+const AbstractExchangeExplorer = require('./AbstractExchangeProvider')
 const NotSupportedCurrencyError = require('../errors/NotSupportedCurrencyError')
 
 const crypto = require('crypto')

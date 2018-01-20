@@ -1,4 +1,4 @@
-const AbstractExplorer = require('./AbstractExplorer')
+const AbstractExplorer = require('./AbstractProvider')
 
 class MockExplorer extends AbstractExplorer {
   static getSupportedCurrencies () {

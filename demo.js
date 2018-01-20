@@ -1,5 +1,4 @@
-const explorerName = 'ethereum.etherscan'
-const Explorer = require('./src/explorers/EthereumEtherscan')
+const Explorer = require('./index.js').explorer('ethereum.etherscan')
 const explorer = new Explorer()
 
 const testAddresses = require('./test/fixtures.json').addresses
