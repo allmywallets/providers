@@ -8,6 +8,17 @@
   },
   "author": "allmywallets",
   "license": "MIT",
+  "url" : "https://github.com/allmywallets/providers",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/allmywallets/providers.git"
+  },
+  "keywords": [
+    "providers",
+    "cryptocurrency",
+    "exchange",
+    "blockchain"
+  ],
   "dependencies": {
     "ccxt": "^1.10.753",
     "node-fetch": "^1.7.3",
