@@ -1,12 +1,12 @@
 {
-  "name": "explorerlibname",
-  "version": "1.0.0",
+  "name": "providers",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "ava --timeout 20000"
   },
-  "author": "",
+  "author": "allmywallets",
   "license": "MIT",
   "dependencies": {
     "ccxt": "^1.10.753",
