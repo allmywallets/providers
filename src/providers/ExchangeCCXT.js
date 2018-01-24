@@ -9,38 +9,27 @@ const ExchangeFactory = {
   },
 
   getExchange: (exchangeName) => {
+
+    const exchange = new ccxt[exchangeName]()
+    if (!exchange.hasCORS) {
+      exchange.proxy = 'https://cors-anywhere.herokuapp.com/'
+    }
+
     /**
      * CCXT library exchange
      */
     class ExchangeCCXT extends AbstractExchangeExplorer {
-      static get exchangeName () {
-        return exchangeName
-      }
-
       constructor (parameters) {
         super(parameters)
-        this.exchange = ExchangeCCXT._instantiateCCXT()
       }
 
-      static _setExchangeCredentials (exchange, walletIdentifier) {
+      static _setExchangeCredentials (walletIdentifier) {
         Object.keys(walletIdentifier).forEach(key => {
           exchange[key] = walletIdentifier[key]
         })
       }
 
-      static _instantiateCCXT () {
-        const exchange = new ccxt[ExchangeCCXT.exchangeName]()
-
-        if (!exchange.hasCORS) {
-          exchange.proxy = 'https://cors-anywhere.herokuapp.com/'
-        }
-
-        return exchange
-      }
-
       static async getSupportedCurrencies () {
-        const exchange = ExchangeCCXT._instantiateCCXT()
-
         const currenciesRes = await exchange.fetchMarkets()
         const currencies = {}
         currenciesRes.forEach(market => {
@@ -52,14 +41,14 @@ const ExchangeFactory = {
 
       async _checkApiKeyPermission (walletIdentifier) {
         // TODO
-        ExchangeCCXT._setExchangeCredentials(this.exchange, walletIdentifier)
-        console.log(await this.exchange.cancelOrder('1234567890'))
+        ExchangeCCXT._setExchangeCredentials(walletIdentifier)
+        console.log(await exchange.cancelOrder('1234567890'))
         return true
       }
 
       async _getAllNonZeroBalances (walletIdentifier) {
-        ExchangeCCXT._setExchangeCredentials(this.exchange, walletIdentifier)
-        const balancesRes = await this.exchange.fetchBalance()
+        ExchangeCCXT._setExchangeCredentials(walletIdentifier)
+        const balancesRes = await exchange.fetchBalance()
         const balances = []
         const nonZeroBalanceTickers = []
         Object.keys(balancesRes.total).forEach(ticker => {
@@ -73,8 +62,8 @@ const ExchangeFactory = {
       }
 
       async _getBalances (walletIdentifier) {
-        ExchangeCCXT._setExchangeCredentials(this.exchange, walletIdentifier)
-        const balancesRes = await this.exchange.fetchBalance()
+        ExchangeCCXT._setExchangeCredentials(walletIdentifier)
+        const balancesRes = await exchange.fetchBalance()
         const balances = []
         this.tickers.forEach(ticker => {
           const amount = balancesRes.total[ticker]
@@ -97,8 +86,8 @@ const ExchangeFactory = {
       }
 
       async _fetchTransactions (walletIdentifier, tickers) {
-        ExchangeCCXT._setExchangeCredentials(this.exchange, walletIdentifier)
-        await this.exchange.loadMarkets()
+        ExchangeCCXT._setExchangeCredentials(walletIdentifier)
+        await exchange.loadMarkets()
 
         const transactions = []
         for (let i = 0; i < tickers.length; i++) {
@@ -107,14 +96,14 @@ const ExchangeFactory = {
 
         const promises = []
 
-        this.exchange.symbols.forEach(symbol => {
+        exchange.symbols.forEach(symbol => {
           const split = symbol.split('/')
           const ticker1 = split[0]
           const ticker2 = split[1]
 
           if (tickers.includes(ticker1) && tickers.includes(ticker2)) {
             promises.push((async () => {
-              let marketTransactionsRes = await this.exchange.fetchMyTrades(symbol)
+              let marketTransactionsRes = await exchange.fetchMyTrades(symbol)
               let marketTransactions = this._parseTransactions(marketTransactionsRes)
 
               const index1 = tickers.indexOf(ticker1)
@@ -132,10 +121,10 @@ const ExchangeFactory = {
       }
 
       async _fetchAddresses (walletIdentifier, nonZeroBalanceTickers) {
-        ExchangeCCXT._setExchangeCredentials(this.exchange, walletIdentifier)
+        ExchangeCCXT._setExchangeCredentials(walletIdentifier)
         const promises = []
         nonZeroBalanceTickers.forEach(ticker => {
-          promises.push(this.exchange.fetchDepositAddress(ticker))
+          promises.push(exchange.fetchDepositAddress(ticker))
         })
 
         const depositAddressesRes = await Promise.all(promises)
@@ -146,7 +135,6 @@ const ExchangeFactory = {
       static getWalletIdentifierParameters () {
         const parameters = []
 
-        const exchange = ExchangeCCXT._instantiateCCXT()
         Object.keys(exchange.requiredCredentials).forEach(credential => {
           const isRequired = exchange.requiredCredentials[credential]
           if (isRequired) {
@@ -154,7 +142,7 @@ const ExchangeFactory = {
               {
                 type: 'input',
                 inputType: 'text',
-                label: `${ExchangeCCXT.exchangeName} ${credential}`,
+                label: `${exchangeName} ${credential}`,
                 model: `wallets.${credential}`,
                 autocomplete: 'off',
                 required: true
