@@ -1,12 +1,11 @@
-const Explorer = require('./index').explorer('ethereum.etherscan')
-const explorer = new Explorer();
+const Provider = require('./index').providers['ethereum.etherscan']
+const provider = new Provider();
 
 (async function () {
-  const res = await explorer
-      .address('0xb794f5ea0ba39494ce839613fffba74279579268')
+  const res = await provider
+      .address('0x2f5218c475f152152ac9787db76b9eea7e59c3d8')
       .fetch(['transactions', 'balances'])
       .exec()
 
   console.log(res[0].balances)
-  console.log(res[0].transactions)
 }()).catch(console.log)
