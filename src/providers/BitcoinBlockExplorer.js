@@ -15,7 +15,9 @@ class BitcoinBlockExplorer extends AbstractExplorer {
       name: 'Block Explorer',
       url: 'https://blockexplorer.com/',
       network: 'bitcoin',
-      provider: 'blockexplorer'
+      provider: 'blockexplorer',
+      description: 'Block Explorer is a Bitcoin blockchain explorer',
+      hasCORS: true
     }
   }
 

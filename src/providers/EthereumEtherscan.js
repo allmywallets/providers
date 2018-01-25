@@ -17,7 +17,9 @@ class EthereumEtherscan extends AbstractExplorer {
       name: 'Etherscan',
       url: 'https://etherscan.io/',
       network: 'ethereum',
-      provider: 'etherscan'
+      provider: 'etherscan',
+      description: 'Etherscan is an Ethereum block explorer.',
+      hasCORS: true
     }
   }
 

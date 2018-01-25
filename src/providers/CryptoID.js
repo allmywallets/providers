@@ -24,7 +24,9 @@ class CryptoID extends AbstractExplorer {
       name: 'CryptoID',
       url: 'https://chainz.cryptoid.info/',
       network: 'api',
-      provider: 'cryptoid'
+      provider: 'cryptoid',
+      description: 'CryptoID provides multiple blockchains explorers.',
+      hasCORS: false
     }
   }
 

@@ -7,7 +7,9 @@ class MockExplorer extends AbstractExplorer {
       name: 'Mock Explorer',
       url: 'https://mockexplorer.org/',
       network: 'bitcoin',
-      provider: 'mockexplorer'
+      provider: 'mockexplorer',
+      description: 'Mock Explorer',
+      hasCORS: true
     }
   }
 

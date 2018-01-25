@@ -33,6 +33,8 @@ for (let i = 0; i < Providers.length; i++) {
     t.not(Provider.info.url, undefined)
     t.not(Provider.info.network, undefined)
     t.not(Provider.info.provider, undefined)
+    t.not(Provider.info.description, undefined)
+    t.not(Provider.info.hasCORS, undefined)
   })
 
   if (Provider.isExchange) {

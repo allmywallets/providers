@@ -21,7 +21,9 @@ class IotaNative extends AbstractExplorer {
       name: 'IOTA',
       url: 'https://iota.org/',
       network: 'iota',
-      provider: 'native'
+      provider: 'native',
+      description: 'Iota native uses the official API to communicate with a node.',
+      hasCORS: true
     }
   }
 
