@@ -1,37 +1,37 @@
 const test = require('ava')
-const libName = require('../')
+const providers = require('../')
 const testAddresses = require('./fixtures.json').addresses
 const testParameters = require('./fixtures.json').parameters
 const NotSupportedCurrencyError = require('../src/errors/NotSupportedCurrencyError')
 const OnlyEmptyBalancesFound = require('../src/errors/OnlyEmptyBalancesFound')
 
-const explorersName = libName.list()
-let explorers = []
-for (let i = 0; i < explorersName.length; i++) {
-  const Explorer = libName.explorer(explorersName[i])
-  explorers[i] = Explorer
+const providersName = providers.list()
+let Providers = []
+for (let i = 0; i < providersName.length; i++) {
+  const Provider = providers.providers[providersName[i]]
+  Providers[i] = Provider
 }
 
-for (let i = 0; i < explorers.length; i++) {
-  const Explorer = explorers[i]
-  const explorerName = explorersName[i]
-  if (Explorer.isExchange && explorerName !== 'exchange.poloniex') continue // Not necessary to test for all ccxt exchange
+for (let i = 0; i < Providers.length; i++) {
+  const Provider = Providers[i]
+  const providerName = providersName[i]
+  if (Provider.isExchange && providerName !== 'exchange.poloniex') continue // Not necessary to test for all ccxt exchange
 
-  let address = testAddresses[explorerName]
-  let parameters = testParameters[explorerName]
+  let address = testAddresses[providerName]
+  let parameters = testParameters[providerName]
   if (!address) {
-    address = require('./fixturesExchanges.json').addresses[explorerName]
+    address = require('./fixturesExchanges.json').addresses[providerName]
   }
 
-  test(`[${explorerName}] attributes`, async t => {
-    const explorer = new Explorer(parameters)
+  test(`[${providerName}] attributes`, async t => {
+    const explorer = new Provider(parameters)
     t.not(explorer.constructor.getDefaultTicker(), undefined)
     t.not(explorer.supportedCurrencies, undefined)
   })
 
-  if (Explorer.isExchange) {
-    test(`[${explorerName}] Throws empty balances`, async t => {
-      const explorer = new Explorer(parameters)
+  if (Provider.isExchange) {
+    test(`[${providerName}] Throws empty balances`, async t => {
+      const explorer = new Provider(parameters)
       await t.throws(
         explorer
           .address(address)
@@ -39,9 +39,9 @@ for (let i = 0; i < explorers.length; i++) {
           .exec(), OnlyEmptyBalancesFound)
     })
   }
-  test(`[${explorerName}] fetch only balances`, async t => {
-    const explorer = new Explorer(parameters)
-    if (Explorer.isExchange) { explorer.currency('BTC') }
+  test(`[${providerName}] fetch only balances`, async t => {
+    const explorer = new Provider(parameters)
+    if (Provider.isExchange) { explorer.currency('BTC') }
     const res = await explorer
         .address(address)
         .fetch(['balances'])
@@ -65,9 +65,9 @@ for (let i = 0; i < explorers.length; i++) {
     t.not(explorer.getSelectedCurrencies()[0].name, undefined)
   })
 
-  test(`[${explorerName}] fetch only transactions`, async t => {
-    const explorer = new Explorer(parameters)
-    if (Explorer.isExchange) { explorer.currency('BTC') }
+  test(`[${providerName}] fetch only transactions`, async t => {
+    const explorer = new Provider(parameters)
+    if (Provider.isExchange) { explorer.currency('BTC') }
     const res = await explorer
         .address(address)
         .fetch(['transactions'])
@@ -94,12 +94,12 @@ for (let i = 0; i < explorers.length; i++) {
     })
   })
 
-  test(`[${explorerName}] Not supported currency`, async t => {
-    const explorer = new Explorer(parameters)
+  test(`[${providerName}] Not supported currency`, async t => {
+    const explorer = new Provider(parameters)
 
     const fakeTickerName = 'NOT SUPPORTED TICKER'
     let error
-    if (Explorer.dynamicSupportedCurrencies) {
+    if (Provider.dynamicSupportedCurrencies) {
       error = await t.throws(explorer
           .currency(fakeTickerName)
           .address(address)
@@ -111,8 +111,8 @@ for (let i = 0; i < explorers.length; i++) {
     t.is(error.message, `${fakeTickerName} is not supported`)
   })
 
-  test(`[${explorerName}] Supported currencies`, async t => {
-    const supportedCurrencies = await Explorer.getSupportedCurrencies()
+  test(`[${providerName}] Supported currencies`, async t => {
+    const supportedCurrencies = await Provider.getSupportedCurrencies()
     t.not(supportedCurrencies, undefined)
     for (const currency in supportedCurrencies) {
       t.not(supportedCurrencies[currency], undefined)
@@ -121,9 +121,9 @@ for (let i = 0; i < explorers.length; i++) {
     }
   })
 
-  test(`[${explorerName}] fetch only balances and addresses`, async t => {
-    const explorer = new Explorer(parameters)
-    if (Explorer.isExchange) { explorer.currency('BTC') }
+  test(`[${providerName}] fetch only balances and addresses`, async t => {
+    const explorer = new Provider(parameters)
+    if (Provider.isExchange) { explorer.currency('BTC') }
     const res = await explorer
         .address(address)
         .fetch(['balances', 'addresses'])

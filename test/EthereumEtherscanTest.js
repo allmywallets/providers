@@ -1,16 +1,16 @@
 const test = require('ava')
-const libName = require('../')
+const providers = require('../')
 
 const testAddresses = require('./fixtures.json').addresses
 
-const explorerName = 'ethereum.etherscan'
-const Explorer = libName.explorer(explorerName)
+const providerName = 'ethereum.etherscan'
+const Provider = providers.providers[providerName]
 
-const address = testAddresses[explorerName]
+const address = testAddresses[providerName]
 
-test(`[${explorerName}] Custom tokens`, async t => {
+test(`[${providerName}] Custom tokens`, async t => {
   const customTokens = {'MKR': {contractAddress: '0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2', ticker: 'MKR', name: 'Maker'}}
-  let explorer = new Explorer({customTokens})
+  let explorer = new Provider({customTokens})
   const res = await explorer
       .address(address)
       .currency('MKR')
@@ -24,8 +24,8 @@ test(`[${explorerName}] Custom tokens`, async t => {
   t.not(res[0].balances[0] instanceof Number, true)
 })
 
-test(`[${explorerName}] Get tokens`, async t => {
-  let explorer = new Explorer()
+test(`[${providerName}] Get tokens`, async t => {
+  let explorer = new Provider()
   const res = await explorer
       .address(address)
       .currency('BAT')
