@@ -20,6 +20,10 @@ class AbstractExplorer {
     }
   }
 
+  static get info() {
+    throw new Error('This method should be implemented by child class')
+  }
+
   /**
    * Returns true if the class represents an Exchange otherwise false
    * @returns {boolean}

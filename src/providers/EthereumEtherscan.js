@@ -12,6 +12,15 @@ class EthereumEtherscan extends AbstractExplorer {
     }
   }
 
+  static get info() {
+    return {
+      name: 'Etherscan',
+      url: 'https://etherscan.io/',
+      network: 'ethereum',
+      provider: 'etherscan'
+    }
+  }
+
   static getSupportedCurrencies () {
     const currencies = {ETH: {name: 'Ethereum', ticker: 'ETH', decimals: 18}}
     return Object.assign(currencies, ERC20Token)

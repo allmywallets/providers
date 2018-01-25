@@ -27,8 +27,10 @@ const ExchangeFactory = {
 
       static get info() {
         return {
-          name: 'ExchangeCCXT',
-          url: 'url'
+          name: exchange.name,
+          url: exchange.urls.www,
+          network: 'exchange',
+          provider: exchangeName
         }
       }
 

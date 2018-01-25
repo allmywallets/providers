@@ -10,6 +10,15 @@ class BitcoinBlockExplorer extends AbstractExplorer {
     return {BTC: {name: 'Bitcoin', ticker: 'BTC'}}
   }
 
+  static get info() {
+    return {
+      name: 'Block Explorer',
+      url: 'https://blockexplorer.com/',
+      network: 'bitcoin',
+      provider: 'blockexplorer'
+    }
+  }
+
   static getDefaultTicker () {
     return 'BTC'
   }

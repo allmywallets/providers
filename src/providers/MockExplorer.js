@@ -1,6 +1,16 @@
 const AbstractExplorer = require('./AbstractProvider')
 
 class MockExplorer extends AbstractExplorer {
+
+  static get info() {
+    return {
+      name: 'Mock Explorer',
+      url: 'https://mockexplorer.org/',
+      network: 'bitcoin',
+      provider: 'mockexplorer'
+    }
+  }
+
   static getSupportedCurrencies () {
     return {MOC: {name: 'MockCoin', ticker: 'MOC'}}
   }

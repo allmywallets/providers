@@ -16,6 +16,15 @@ class IotaNative extends AbstractExplorer {
     }
   }
 
+  static get info() {
+    return {
+      name: 'IOTA',
+      url: 'https://iota.org/',
+      network: 'iota',
+      provider: 'native'
+    }
+  }
+
   static getSupportedCurrencies () {
     return {IOTA: {name: 'Iota', ticker: 'IOTA'}}
   }
