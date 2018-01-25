@@ -1,3 +1,5 @@
+const cryptocurrencies = require('cryptocurrencies');
+
 const AbstractExplorer = require('./AbstractProvider')
 const ApiKeyPermissionError = require('../errors/ApiKeyPermissionError')
 const OnlyEmptyBalancesFound = require('../errors/OnlyEmptyBalancesFound')
@@ -97,7 +99,7 @@ class AbstractExchangeExplorer extends AbstractExplorer {
     }
 
     nonZeroBalanceTickers.forEach(ticker => {
-      this.selectedCurrencies.push({name: ticker, ticker})
+      this.selectedCurrencies.push({name: cryptocurrencies[ticker], ticker})
     })
     wallet.balances = balances
 
@@ -127,7 +129,7 @@ class AbstractExchangeExplorer extends AbstractExplorer {
       return wallets
     }
 
-    this.selectedCurrencies = this.tickers.map(ticker => { return { name: ticker, ticker } })
+    this.selectedCurrencies = this.tickers.map(ticker => { return { name: cryptocurrencies[ticker], ticker } })
     return super.exec()
   }
 }

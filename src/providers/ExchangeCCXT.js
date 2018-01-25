@@ -1,7 +1,9 @@
 const ccxt = require('ccxt')
+const cryptocurrencies = require('cryptocurrencies');
 
 const AbstractExchangeExplorer = require('./AbstractExchangeProvider')
 const NotSupportedCurrencyError = require('../errors/NotSupportedCurrencyError')
+
 
 const ExchangeFactory = {
   getAvailableExchanges: () => {
@@ -23,6 +25,13 @@ const ExchangeFactory = {
         super(parameters)
       }
 
+      static get info() {
+        return {
+          name: 'ExchangeCCXT',
+          url: 'url'
+        }
+      }
+
       static _setExchangeCredentials (walletIdentifier) {
         Object.keys(walletIdentifier).forEach(key => {
           exchange[key] = walletIdentifier[key]
@@ -33,7 +42,7 @@ const ExchangeFactory = {
         const currenciesRes = await exchange.fetchMarkets()
         const currencies = {}
         currenciesRes.forEach(market => {
-          currencies[market.base] = {name: market.base, ticker: market.base}
+          currencies[market.base] = {name: cryptocurrencies[market.base] || market.base, ticker: market.base}
         })
 
         return currencies
