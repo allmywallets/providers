@@ -27,6 +27,12 @@ for (let i = 0; i < Providers.length; i++) {
     const explorer = new Provider(parameters)
     t.not(explorer.constructor.getDefaultTicker(), undefined)
     t.not(explorer.supportedCurrencies, undefined)
+
+    t.not(Provider.info, undefined)
+    t.not(Provider.info.name, undefined)
+    t.not(Provider.info.url, undefined)
+    t.not(Provider.info.network, undefined)
+    t.not(Provider.info.provider, undefined)
   })
 
   if (Provider.isExchange) {
