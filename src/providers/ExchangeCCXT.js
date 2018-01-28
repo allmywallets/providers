@@ -33,7 +33,7 @@ const ExchangeFactory = {
           documentation: exchangeName === 'poloniex' ? 'https://raw.githubusercontent.com/allmywallets/providers-docs/master/exchange.poloniex': false,
           network: 'exchange',
           provider: exchangeName,
-          description: `${exchange.name} is a cryptocurrency exchange located in ${exchange.countries}`,
+          description: `${exchange.name} is a cryptocurrency exchange located in ${exchange.countries}.`,
           hasCORS: exchange.hasCORS,
           apiKeyPermission: !!exchange.fetchPermissions
         }
