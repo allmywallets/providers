@@ -30,7 +30,7 @@ const ExchangeFactory = {
         return {
           name: exchange.name,
           url: exchange.urls.www,
-          documentation: exchangeName === 'poloniex' ? 'https://github.com/allmywallets/providers-docs/tree/master/exchange.poloniex': false,
+          documentation: exchangeName === 'poloniex' ? 'https://raw.githubusercontent.com/allmywallets/providers-docs/master/exchange.poloniex/how-to.md': false,
           network: 'exchange',
           provider: exchangeName,
           description: `${exchange.name} is a cryptocurrency exchange located in ${exchange.countries}`,
