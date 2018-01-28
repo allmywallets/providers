@@ -35,7 +35,7 @@ const ExchangeFactory = {
           provider: exchangeName,
           description: `${exchange.name} is a cryptocurrency exchange located in ${exchange.countries}.`,
           hasCORS: exchange.hasCORS,
-          apiKeyPermission: !!exchange.fetchPermissions
+          apiKeyPermission: !!exchange.has.fetchPermissions
         }
       }
 
