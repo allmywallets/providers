@@ -11,10 +11,6 @@ class CryptoID extends AbstractExplorer {
     super()
 
     this.parameters = parameters || {}
-    if (!this.parameters.apiKey) {
-      throw new Error('Api key is required for CryptoID, request it here https://chainz.cryptoid.info/api.key.dws')
-    }
-
     this.supportedCurrencies = {BTC: {name: 'Bitcoin', ticker: 'BTC'}}
   }
 
@@ -49,6 +45,10 @@ class CryptoID extends AbstractExplorer {
   }
 
   async _getBalances (address) {
+    if (!this.parameters.apiKey) {
+      throw new Error('Api key is required for CryptoID, request it here https://chainz.cryptoid.info/api.key.dws')
+    }
+
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
       'origin': '.',
