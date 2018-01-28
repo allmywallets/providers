@@ -170,7 +170,7 @@ class AbstractExplorer {
    * Return the parameters needed for the constructor
    * @returns {object}
    */
-  static getExplorerParameters () {
+  static getProviderParameters () {
     return []
   }
 

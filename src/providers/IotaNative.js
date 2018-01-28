@@ -75,7 +75,7 @@ class IotaNative extends AbstractExplorer {
     return [[]]
   }
 
-  static getExplorerParameters () {
+  static getProviderParameters () {
     return [{
       type: 'select',
       label: 'Node',

@@ -78,7 +78,7 @@ class CryptoID extends AbstractExplorer {
     return transactions
   }
 
-  static getExplorerParameters () {
+  static getProviderParameters () {
     return [{
       type: 'input',
       inputType: 'text',
