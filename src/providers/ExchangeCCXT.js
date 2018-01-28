@@ -48,13 +48,7 @@ const ExchangeFactory = {
       async getSupportedCurrencies () {
         let currencies = {}
         const currencyRes = await exchange.fetchMarkets()
-        let markets
-        if(Array.isArray(currencyRes)) {
-          markets = currencyRes
-        } else {
-          markets = Object.values(exchange.markets)
-        }
-
+        const markets = Array.isArray(currencyRes) ? currencyRes : Object.values(exchange.markets)
         markets.forEach(market => {
           currencies[market.quote] = {name: cryptocurrencies[market.quote] || market.quote, ticker: market.quote}
           currencies[market.base] = {name: cryptocurrencies[market.base] || market.base, ticker: market.base}
