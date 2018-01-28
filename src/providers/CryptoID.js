@@ -1,8 +1,7 @@
 const AbstractExplorer = require('./AbstractProvider')
 const NotSupportedCurrencyError = require('../errors/NotSupportedCurrencyError')
 
-// TODO : cors
-const API_URL = 'https://cors-anywhere.herokuapp.com/https://chainz.cryptoid.info/'
+const API_URL = 'https://chainz.cryptoid.info/'
 
 /**
  *  CryptoID blockchain explorers https://chainz.cryptoid.info/

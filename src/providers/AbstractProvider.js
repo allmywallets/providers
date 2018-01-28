@@ -15,9 +15,15 @@ class AbstractExplorer {
     this.tickers = []
     this.elementsToFetch = []
 
+    this.proxy = ''
+
     if (!this.constructor.dynamicSupportedCurrencies) {
       this.supportedCurrencies = this.constructor.getSupportedCurrencies()
     }
+  }
+
+  setProxy(proxy) {
+      this.proxy = proxy
   }
 
   static get info() {
@@ -246,7 +252,7 @@ class AbstractExplorer {
   }
 
   static async _fetchJson (url, options = {}) {
-    const response = await fetchImplementation(url, options)
+    const response = await fetchImplementation(proxy + url, options)
     return response.json().catch(() => {
       throw new Error(`Failed to parse JSON: ${response.status} ${response.statusText}`)
     })

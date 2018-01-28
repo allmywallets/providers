@@ -13,9 +13,6 @@ const ExchangeFactory = {
   getExchange: (exchangeName) => {
 
     const exchange = new ccxt[exchangeName]()
-    if (!exchange.hasCORS) {
-      exchange.proxy = 'https://cors-anywhere.herokuapp.com/'
-    }
 
     /**
      * CCXT library exchange
@@ -23,6 +20,10 @@ const ExchangeFactory = {
     class ExchangeCCXT extends AbstractExchangeExplorer {
       constructor (parameters) {
         super(parameters)
+      }
+
+      setProxy(proxy) {
+          exchange.proxy = proxy
       }
 
       static get info() {
