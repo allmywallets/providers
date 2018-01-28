@@ -7,7 +7,10 @@ const NotSupportedCurrencyError = require('../errors/NotSupportedCurrencyError')
 
 const ExchangeFactory = {
   getAvailableExchanges: () => {
-    return ccxt.exchanges
+    return ccxt.exchanges.filter(exchangeName => {
+      const exchange = new ccxt[exchangeName]();
+      return exchange.has.fetchBalance
+    })
   },
 
   getExchange: (exchangeName) => {
