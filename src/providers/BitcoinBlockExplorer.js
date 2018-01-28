@@ -6,10 +6,6 @@ const API_URL = 'https://blockexplorer.com/api'
  * Bitcoin blockchain explorer for https://blockexplorer.com/
  */
 class BitcoinBlockExplorer extends AbstractExplorer {
-  static getSupportedCurrencies () {
-    return {BTC: {name: 'Bitcoin', ticker: 'BTC'}}
-  }
-
   static get info() {
     return {
       name: 'Block Explorer',
@@ -19,6 +15,10 @@ class BitcoinBlockExplorer extends AbstractExplorer {
       description: 'Block Explorer is a Bitcoin blockchain explorer.',
       hasCORS: true
     }
+  }
+
+  getSupportedCurrencies () {
+    return {BTC: {name: 'Bitcoin', ticker: 'BTC'}}
   }
 
   static getDefaultTicker () {
