@@ -45,7 +45,7 @@ const ExchangeFactory = {
         })
       }
 
-      static async getSupportedCurrencies () {
+      async getSupportedCurrencies () {
         const currenciesRes = await exchange.fetchMarkets()
         const currencies = {}
         currenciesRes.forEach(market => {

@@ -23,7 +23,7 @@ class EthereumEtherscan extends AbstractExplorer {
     }
   }
 
-  static getSupportedCurrencies () {
+  getSupportedCurrencies () {
     const currencies = {ETH: {name: 'Ethereum', ticker: 'ETH', decimals: 18}}
     return Object.assign(currencies, ERC20Token)
   }
@@ -36,9 +36,9 @@ class EthereumEtherscan extends AbstractExplorer {
     const promises = []
     this.tickers.forEach(ticker => {
       if (ticker === this.constructor.getDefaultTicker()) { // ETH
-        promises.push(this.constructor._fetchJson(`${API_URL}?module=account&action=balance&address=${address}&sort=desc&tag=latest`))
+        promises.push(this._fetchJson(`${API_URL}?module=account&action=balance&address=${address}&sort=desc&tag=latest`))
       } else { // Tokens
-        promises.push(this.constructor._fetchJson(`${API_URL}?module=account&action=tokenbalance&contractaddress=${this.supportedCurrencies[ticker].contractAddress}&address=${address}&tag=latest`))
+        promises.push(this._fetchJson(`${API_URL}?module=account&action=tokenbalance&contractaddress=${this.supportedCurrencies[ticker].contractAddress}&address=${address}&tag=latest`))
       }
     })
 
@@ -55,7 +55,7 @@ class EthereumEtherscan extends AbstractExplorer {
   }
 
   async _getTransactions (address) {
-    const res = await this.constructor._fetchJson(`${API_URL}?module=account&action=txlist&address=${address}&sort=desc&tag=latest`)
+    const res = await this._fetchJson(`${API_URL}?module=account&action=txlist&address=${address}&sort=desc&tag=latest`)
     const apiResTransactions = res.result
 
     apiResTransactions.forEach(tx => {

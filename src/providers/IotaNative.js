@@ -8,7 +8,7 @@ class IotaNative extends AbstractExplorer {
     super()
 
     this.parameters = parameters || {}
-    this.parameters.node = this.parameters.node || 'https://iri3-api.iota.fm:443'
+    this.parameters.node = this.parameters.node || 'http://iota.teamveno.eu:14265'
 
     this.headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -27,7 +27,7 @@ class IotaNative extends AbstractExplorer {
     }
   }
 
-  static getSupportedCurrencies () {
+  getSupportedCurrencies () {
     return {IOTA: {name: 'Iota', ticker: 'IOTA'}}
   }
 
@@ -36,7 +36,7 @@ class IotaNative extends AbstractExplorer {
   }
 
   async iotaApiRequest (body) {
-    const res = await this.constructor._fetchJson(this.parameters.node, {
+    const res = await this._fetchJson(this.parameters.node, {
       method: 'POST',
       headers: this.headers,
       body

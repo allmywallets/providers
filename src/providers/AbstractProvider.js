@@ -18,7 +18,7 @@ class AbstractExplorer {
     this.proxy = ''
 
     if (!this.constructor.dynamicSupportedCurrencies) {
-      this.supportedCurrencies = this.constructor.getSupportedCurrencies()
+      this.supportedCurrencies = this.getSupportedCurrencies()
     }
   }
 
@@ -64,7 +64,7 @@ class AbstractExplorer {
    * Returns the supported currencies
    * @returns {[object]}
    */
-  static getSupportedCurrencies () {
+  getSupportedCurrencies () {
     return {BTC: {name: 'AbstractExplorerCoin', ticker: 'BTC'}}
   }
 
@@ -251,8 +251,8 @@ class AbstractExplorer {
     return wallets
   }
 
-  static async _fetchJson (url, options = {}) {
-    const response = await fetchImplementation(proxy + url, options)
+  async _fetchJson (url, options = {}) {
+    const response = await fetchImplementation(this.proxy + url, options)
     return response.json().catch(() => {
       throw new Error(`Failed to parse JSON: ${response.status} ${response.statusText}`)
     })

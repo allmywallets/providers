@@ -120,7 +120,8 @@ for (let i = 0; i < Providers.length; i++) {
   })
 
   test(`[${providerName}] Supported currencies`, async t => {
-    const supportedCurrencies = await Provider.getSupportedCurrencies()
+    const provider = new Provider(parameters)
+    const supportedCurrencies = await provider.getSupportedCurrencies()
     t.not(supportedCurrencies, undefined)
     for (const currency in supportedCurrencies) {
       t.not(supportedCurrencies[currency], undefined)

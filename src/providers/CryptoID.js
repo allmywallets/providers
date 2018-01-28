@@ -29,13 +29,13 @@ class CryptoID extends AbstractExplorer {
     }
   }
 
-  static async getSupportedCurrencies () {
+  async getSupportedCurrencies () {
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
       'origin': '.',
       'x-requested-with': '.'
     }
-    const currencies = await AbstractExplorer._fetchJson(`${API_URL}/explorer/api.dws?q=summary`, {headers})
+    const currencies = await this._fetchJson(`${API_URL}/explorer/api.dws?q=summary`, {headers})
     const newCurrencies = {}
 
     for (let curr in currencies) {
@@ -58,7 +58,7 @@ class CryptoID extends AbstractExplorer {
     const balances = []
     const promises = []
     this.tickers.forEach(async ticker => {
-      promises.push(this.constructor._fetchJson(`${API_URL}/${ticker.toLowerCase()}/api.dws?q=getbalance&a=${address}&key=${this.parameters.apiKey}`, {headers})
+      promises.push(this._fetchJson(`${API_URL}/${ticker.toLowerCase()}/api.dws?q=getbalance&a=${address}&key=${this.parameters.apiKey}`, {headers})
                                     .catch(() => { throw new NotSupportedCurrencyError(`${ticker} is not supported`) }))
     })
     let apiBalances = await Promise.all(promises)

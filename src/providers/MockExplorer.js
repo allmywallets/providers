@@ -13,7 +13,7 @@ class MockExplorer extends AbstractExplorer {
     }
   }
 
-  static getSupportedCurrencies () {
+  getSupportedCurrencies () {
     return {MOC: {name: 'MockCoin', ticker: 'MOC'}}
   }
 

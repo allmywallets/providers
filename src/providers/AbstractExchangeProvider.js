@@ -15,7 +15,7 @@ class AbstractExchangeExplorer extends AbstractExplorer {
     this.supportedCurrencies = {BTC: {name: 'Bitcoin', ticker: 'BTC'}}
   }
 
-  static async getSupportedCurrencies () {
+  async getSupportedCurrencies () {
     throw new Error('This method should be implemented by child class')
   }
 
