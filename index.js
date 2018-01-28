@@ -7,7 +7,6 @@ const classes = [
   require('./src/providers/CryptoID'),
   require('./src/providers/EthereumEtherscan'),
   require('./src/providers/IotaNative'),
-  require('./src/providers/MockExplorer'),
 ]
 
 classes.forEach(Provider => {
