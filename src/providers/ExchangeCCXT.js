@@ -30,7 +30,7 @@ const ExchangeFactory = {
         return {
           name: exchange.name,
           url: exchange.urls.www,
-          documentation: exchangeName === 'poloniex' ? 'https://raw.githubusercontent.com/allmywallets/providers-docs/master/exchange.poloniex/how-to.md': false,
+          documentation: exchangeName === 'poloniex' ? 'https://raw.githubusercontent.com/allmywallets/providers-docs/master/exchange.poloniex': false,
           network: 'exchange',
           provider: exchangeName,
           description: `${exchange.name} is a cryptocurrency exchange located in ${exchange.countries}`,
@@ -46,9 +46,17 @@ const ExchangeFactory = {
       }
 
       async getSupportedCurrencies () {
-        const currenciesRes = await exchange.fetchMarkets()
-        const currencies = {}
-        currenciesRes.forEach(market => {
+        let currencies = {}
+        const currencyRes = await exchange.fetchMarkets()
+        let markets
+        if(Array.isArray(currencyRes)) {
+          markets = currencyRes
+        } else {
+          markets = Object.values(exchange.markets)
+        }
+
+        markets.forEach(market => {
+          currencies[market.quote] = {name: cryptocurrencies[market.quote] || market.quote, ticker: market.quote}
           currencies[market.base] = {name: cryptocurrencies[market.base] || market.base, ticker: market.base}
         })
 
