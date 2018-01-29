@@ -142,6 +142,10 @@ const ExchangeFactory = {
       }
 
       async _fetchAddresses (walletIdentifier, nonZeroBalanceTickers) {
+        if (!exchange.has.fetchDepositAddress) {
+          return nonZeroBalanceTickers.map(ticker => 'We cannot retrieve withdrawal address for this exchange using its API')
+        }
+
         ExchangeCCXT._setExchangeCredentials(walletIdentifier)
         const promises = []
         nonZeroBalanceTickers.forEach(ticker => {
