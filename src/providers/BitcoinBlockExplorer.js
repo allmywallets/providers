@@ -6,7 +6,7 @@ const API_URL = 'https://blockexplorer.com/api'
  * Bitcoin blockchain explorer for https://blockexplorer.com/
  */
 class BitcoinBlockExplorer extends AbstractExplorer {
-  static get info() {
+  static get info () {
     return {
       name: 'Block Explorer',
       url: 'https://blockexplorer.com/',

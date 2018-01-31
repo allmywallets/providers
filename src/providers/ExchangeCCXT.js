@@ -1,39 +1,33 @@
 const ccxt = require('ccxt')
-const cryptocurrencies = require('cryptocurrencies');
+const cryptocurrencies = require('cryptocurrencies')
 
 const AbstractExchangeExplorer = require('./AbstractExchangeProvider')
 const NotSupportedCurrencyError = require('../errors/NotSupportedCurrencyError')
 
-
 const ExchangeFactory = {
   getAvailableExchanges: () => {
     return ccxt.exchanges.filter(exchangeName => {
-      const exchange = new ccxt[exchangeName]();
+      const exchange = new ccxt[exchangeName]()
       return exchange.has.fetchBalance
     })
   },
 
   getExchange: (exchangeName) => {
-
     const exchange = new ccxt[exchangeName]()
 
     /**
      * CCXT library exchange
      */
     class ExchangeCCXT extends AbstractExchangeExplorer {
-      constructor (parameters) {
-        super(parameters)
+      setProxy (proxy) {
+        exchange.proxy = proxy
       }
 
-      setProxy(proxy) {
-          exchange.proxy = proxy
-      }
-
-      static get info() {
+      static get info () {
         return {
           name: exchange.name,
           url: exchange.urls.www,
-          documentation: exchangeName === 'poloniex' ? 'https://raw.githubusercontent.com/allmywallets/providers-docs/master/exchange.poloniex': false,
+          documentation: exchangeName === 'poloniex' ? 'https://raw.githubusercontent.com/allmywallets/providers-docs/master/exchange.poloniex' : false,
           network: 'exchange',
           provider: exchangeName,
           description: `${exchange.name} is a cryptocurrency exchange located in ${exchange.countries}.`,

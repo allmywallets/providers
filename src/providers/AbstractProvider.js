@@ -22,11 +22,11 @@ class AbstractExplorer {
     }
   }
 
-  setProxy(proxy) {
-      this.proxy = proxy
+  setProxy (proxy) {
+    this.proxy = proxy
   }
 
-  static get info() {
+  static get info () {
     throw new Error('This method should be implemented by child class')
   }
 

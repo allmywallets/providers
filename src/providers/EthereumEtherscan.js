@@ -12,7 +12,7 @@ class EthereumEtherscan extends AbstractExplorer {
     }
   }
 
-  static get info() {
+  static get info () {
     return {
       name: 'Etherscan',
       url: 'https://etherscan.io/',

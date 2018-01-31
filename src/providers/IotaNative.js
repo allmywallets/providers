@@ -16,7 +16,7 @@ class IotaNative extends AbstractExplorer {
     }
   }
 
-  static get info() {
+  static get info () {
     return {
       name: 'IOTA',
       url: 'https://iota.org/',

@@ -14,7 +14,7 @@ class CryptoID extends AbstractExplorer {
     this.supportedCurrencies = {BTC: {name: 'Bitcoin', ticker: 'BTC'}}
   }
 
-  static get info() {
+  static get info () {
     return {
       name: 'CryptoID',
       url: 'https://chainz.cryptoid.info/',

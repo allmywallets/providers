@@ -1,4 +1,4 @@
-const cryptocurrencies = require('cryptocurrencies');
+const cryptocurrencies = require('cryptocurrencies')
 
 const AbstractExplorer = require('./AbstractProvider')
 const ApiKeyPermissionError = require('../errors/ApiKeyPermissionError')
