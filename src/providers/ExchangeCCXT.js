@@ -143,7 +143,8 @@ const ExchangeFactory = {
         ExchangeCCXT._setExchangeCredentials(walletIdentifier)
         const promises = []
         nonZeroBalanceTickers.forEach(ticker => {
-          promises.push(exchange.fetchDepositAddress(ticker))
+          // TODO: Handle errors (Connection error, permission ...)
+          promises.push(exchange.fetchDepositAddress(ticker).catch(e => `No deposit address for ${ticker}`))
         })
 
         const depositAddressesRes = await Promise.all(promises)
