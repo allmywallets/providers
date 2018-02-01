@@ -18,6 +18,7 @@ class CryptoID extends AbstractExplorer {
     return {
       name: 'CryptoID',
       url: 'https://chainz.cryptoid.info/',
+      documentation: 'https://raw.githubusercontent.com/allmywallets/providers-docs/master/api.crytoid/how-to.md',
       network: 'api',
       provider: 'cryptoid',
       description: 'CryptoID provides multiple blockchains explorers.',
