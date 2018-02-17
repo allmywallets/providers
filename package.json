@@ -1,12 +1,12 @@
 {
   "name": "@allmywallets/providers",
   "version": "0.0.6",
-  "description": "",
+  "description": "Library to retrieve balances and transactions from a variety of cryptocurrencies explorers and exchanges.",
   "main": "index.js",
   "scripts": {
     "test": "ava --timeout 20000"
   },
-  "author": "allmywallets",
+  "author": "Victor Le",
   "license": "MIT",
   "url": "https://github.com/allmywallets/providers",
   "repository": {
