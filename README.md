@@ -23,3 +23,25 @@ const provider = new Provider();
   console.log(res[0].balances)
 }()).catch(console.log)
 ```
+
+You can run the code above
+```
+node demo.js
+```
+
+## Run the tests
+Create a file `test/fixturesExchanges.json` replacing the `apiKey` and `secret` values
+```json
+{
+    "addresses": {
+        "exchange.poloniex": {
+            "apiKey": "your-api-key",
+            "secret": "your-secret"
+        }
+    }
+}
+```
+Then run
+```
+npm test
+```
