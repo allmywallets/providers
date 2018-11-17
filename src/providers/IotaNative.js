@@ -8,7 +8,7 @@ class IotaNative extends AbstractExplorer {
     super()
 
     this.parameters = parameters || {}
-    this.parameters.node = this.parameters.node || 'http://iota.teamveno.eu:14265'
+    this.parameters.node = this.parameters.node || 'https://pow5.iota.community:443'
 
     this.headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
