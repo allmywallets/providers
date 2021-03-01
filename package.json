@@ -22,7 +22,7 @@
   "dependencies": {
     "ccxt": "^1.10.840",
     "cryptocurrencies": "^1.2.0",
-    "node-fetch": "^1.7.3",
+    "node-fetch": "^2.6.1",
     "nonce": "^1.0.4",
     "url-search-params": "^0.10.0"
   },
