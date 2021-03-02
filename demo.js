@@ -1,5 +1,5 @@
 const Provider = require('./index').providers['ethereum.etherscan']
-const provider = new Provider();
+const provider = new Provider({apiKey: process.env.ETHERSCAN_API_KEY});
 
 (async function () {
   const res = await provider

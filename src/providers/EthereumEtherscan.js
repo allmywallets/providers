@@ -10,6 +10,7 @@ class EthereumEtherscan extends AbstractExplorer {
     if (parameters && parameters.customTokens) {
       this.supportedCurrencies = Object.assign(this.supportedCurrencies, parameters.customTokens)
     }
+    this.apiKey = parameters.apiKey
   }
 
   static get info () {
@@ -36,9 +37,9 @@ class EthereumEtherscan extends AbstractExplorer {
     const promises = []
     this.tickers.forEach(ticker => {
       if (ticker === this.constructor.getDefaultTicker()) { // ETH
-        promises.push(this._fetchJson(`${API_URL}?module=account&action=balance&address=${address}&sort=desc&tag=latest`))
+        promises.push(this._fetchJson(`${API_URL}?module=account&action=balance&address=${address}&sort=desc&tag=latest&apikey=${this.apiKey}`))
       } else { // Tokens
-        promises.push(this._fetchJson(`${API_URL}?module=account&action=tokenbalance&contractaddress=${this.supportedCurrencies[ticker].contractAddress}&address=${address}&tag=latest`))
+        promises.push(this._fetchJson(`${API_URL}?module=account&action=tokenbalance&contractaddress=${this.supportedCurrencies[ticker].contractAddress}&address=${address}&tag=latest&apikey=${this.apiKey}`))
       }
     })
 
@@ -55,10 +56,13 @@ class EthereumEtherscan extends AbstractExplorer {
   }
 
   async _getTransactions (address) {
-    const res = await this._fetchJson(`${API_URL}?module=account&action=txlist&address=${address}&sort=desc&tag=latest`)
+    const res = await this._fetchJson(`${API_URL}?module=account&action=txlist&address=${address}&sort=desc&tag=latest&apikey=${this.apiKey}`)
     const apiResTransactions = res.result
+    if (typeof apiResTransactions === 'string') {
+      throw apiResTransactions
+    }
 
-    apiResTransactions.forEach(tx => {
+    for (let tx of apiResTransactions) {
       tx.type = tx.from === this.address ? 'out' : 'in'
 
       tx.id = tx.hash
@@ -66,11 +70,11 @@ class EthereumEtherscan extends AbstractExplorer {
 
       tx.amount = tx.value
       delete tx.value
-    })
+    }
 
     // TODO : Retrieve correct transactions for tokens
     const transactions = []
-    this.tickers.forEach(ticker => {
+    this.tickers.forEach(() => {
       transactions.push(apiResTransactions)
     })
 
@@ -81,9 +85,16 @@ class EthereumEtherscan extends AbstractExplorer {
     return [{
       type: 'input',
       inputType: 'text',
+      label: 'API KEY',
+      model: 'apiKey'
+    },
+    {
+      type: 'input',
+      inputType: 'text',
       label: 'Custom tokens (optional)',
       model: 'customTokens'
-    }]
+    }
+    ]
   }
 }
 

@@ -2,7 +2,6 @@ const ccxt = require('ccxt')
 const cryptocurrencies = require('cryptocurrencies')
 
 const AbstractExchangeExplorer = require('./AbstractExchangeProvider')
-const NotSupportedCurrencyError = require('../errors/NotSupportedCurrencyError')
 
 const ExchangeFactory = {
   getAvailableExchanges: () => {
@@ -13,7 +12,7 @@ const ExchangeFactory = {
   },
 
   getExchange: (exchangeName) => {
-    const exchange = new ccxt[exchangeName]()
+    const exchange = new ccxt[exchangeName]({ 'enableRateLimit': true })
 
     /**
      * CCXT library exchange
@@ -47,8 +46,8 @@ const ExchangeFactory = {
         const currencyRes = await exchange.fetchMarkets()
         const markets = Array.isArray(currencyRes) ? currencyRes : Object.values(exchange.markets)
         markets.forEach(market => {
-          currencies[market.quote] = {name: cryptocurrencies[market.quote] || market.quote, ticker: market.quote}
-          currencies[market.base] = {name: cryptocurrencies[market.base] || market.base, ticker: market.base}
+          currencies[market.quote] = { name: cryptocurrencies[market.quote] || market.quote, ticker: market.quote }
+          currencies[market.base] = { name: cryptocurrencies[market.base] || market.base, ticker: market.base }
         })
 
         return currencies
@@ -73,7 +72,7 @@ const ExchangeFactory = {
           balances.push(amount)
         })
 
-        return {balances, nonZeroBalanceTickers}
+        return { balances, nonZeroBalanceTickers }
       }
 
       async _getBalances (walletIdentifier) {
@@ -81,9 +80,9 @@ const ExchangeFactory = {
         const balancesRes = await exchange.fetchBalance()
         const balances = []
         this.tickers.forEach(ticker => {
-          const amount = balancesRes.total[ticker]
+          let amount = balancesRes.total[ticker]
           if (typeof amount === 'undefined') {
-            throw new NotSupportedCurrencyError(`${ticker} is not supported`)
+            amount = 0
           }
           balances.push(amount)
         })
@@ -137,14 +136,14 @@ const ExchangeFactory = {
 
       async _fetchAddresses (walletIdentifier, nonZeroBalanceTickers) {
         if (!exchange.has.fetchDepositAddress) {
-          return nonZeroBalanceTickers.map(ticker => 'We cannot retrieve withdrawal address for this exchange using its API')
+          return nonZeroBalanceTickers.map(() => 'We cannot retrieve withdrawal address for this exchange using its API')
         }
 
         ExchangeCCXT._setExchangeCredentials(walletIdentifier)
         const promises = []
         nonZeroBalanceTickers.forEach(ticker => {
           // TODO: Handle errors (Connection error, permission ...)
-          promises.push(exchange.fetchDepositAddress(ticker).catch(e => `No deposit address for ${ticker}`))
+          promises.push(exchange.fetchDepositAddress(ticker).catch(() => `No deposit address for ${ticker}`))
         })
 
         const depositAddressesRes = await Promise.all(promises)
@@ -174,6 +173,7 @@ const ExchangeFactory = {
         return parameters
       }
     }
+
     return ExchangeCCXT
   }
 }

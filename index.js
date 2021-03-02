@@ -1,12 +1,10 @@
 const ExchangeCCXTFactory = require('./src/providers/ExchangeCCXT')
 
-
 const providers = {}
 const classes = [
-  require('./src/providers/BitcoinBlockExplorer'),
   require('./src/providers/CryptoID'),
   require('./src/providers/EthereumEtherscan'),
-  require('./src/providers/IotaNative'),
+  require('./src/providers/IotaNative')
 ]
 
 classes.forEach(Provider => {
