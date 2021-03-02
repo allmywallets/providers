@@ -3,10 +3,16 @@ name: Run npm test
 on: [push]
 
 jobs:
-  test:
-
+  lint:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - name: Run ESLint
+        run: eslint .
 
+  test:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js

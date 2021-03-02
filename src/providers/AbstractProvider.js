@@ -1,8 +1,7 @@
 const NotSupportedCurrencyError = require('../errors/NotSupportedCurrencyError')
 
-const isNode = (typeof window === 'undefined') && !(typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope)
-// eslint-disable-next-line no-eval
-const fetchImplementation = isNode ? eval('require')('node-fetch') : fetch
+const isNode = (typeof window === 'undefined') && !(typeof WorkerGlobalScope !== 'undefined' && self instanceof WorkerGlobalScope) // eslint-disable-line no-eval, no-undef
+const fetchImplementation = isNode ? eval('require')('node-fetch') : fetch // eslint-disable-line no-eval, no-undef
 
 /**
  * A block/DAGchain explorer
