@@ -6,6 +6,11 @@
   "scripts": {
     "test": "ava --timeout 20000"
   },
+  "ava": {
+    "files": [
+      "!test/fixtures.js"
+    ]
+  },
   "author": "Victor Le",
   "license": "MIT",
   "url": "https://github.com/allmywallets/providers",

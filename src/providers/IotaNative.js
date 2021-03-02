@@ -66,7 +66,7 @@ class IotaNative extends AbstractExplorer {
   }
 
   async _getTransactions (address) {
-    const res = await this.iotaApiRequest(JSON.stringify({
+    await this.iotaApiRequest(JSON.stringify({
       addresses: [address],
       command: 'findTransactions',
       threshold: 100

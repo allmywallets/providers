@@ -1,7 +1,7 @@
 const test = require('ava')
 const providers = require('../')
-const testAddresses = require('./fixtures.json').addresses
-const testParameters = require('./fixtures.json').parameters
+const testAddresses = require('./fixtures.js').addresses
+const testParameters = require('./fixtures.js').parameters
 const NotSupportedCurrencyError = require('../src/errors/NotSupportedCurrencyError')
 const OnlyEmptyBalancesFound = require('../src/errors/OnlyEmptyBalancesFound')
 
@@ -20,9 +20,6 @@ for (let i = 0; i < Providers.length; i++) {
 
   let address = testAddresses[providerName]
   let parameters = testParameters[providerName]
-  if (!address) {
-    address = require('./fixturesExchanges.json').addresses[providerName]
-  }
 
   test(`[${providerName}] attributes`, async t => {
     const explorer = new Provider(parameters)
