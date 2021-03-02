@@ -1,0 +1,29 @@
+name: CI
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - run: npm ci
+      - name: Run ESLint
+        run: npx eslint .
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - run: npm ci
+      - shell: bash
+        env:
+          CRYPTOID_API_KEY: ${{ secrets.CRYPTOID_API_KEY }}
+          ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
+          YOBIT_API_KEY: ${{ secrets.YOBIT_API_KEY }}
+          YOBIT_SECRET: ${{ secrets.YOBIT_SECRET }}
+        run: npm test
