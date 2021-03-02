@@ -22,12 +22,13 @@
   "dependencies": {
     "ccxt": "^1.10.840",
     "cryptocurrencies": "^1.2.0",
+    "etherscan-api": "^10.0.5",
     "node-fetch": "^2.6.1",
     "nonce": "^1.0.4",
     "url-search-params": "^0.10.0"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
+    "ava": "^3.15.0",
     "standard": "^10.0.3"
   }
 }

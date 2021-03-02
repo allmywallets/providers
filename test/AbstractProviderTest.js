@@ -15,7 +15,8 @@ for (let i = 0; i < providersName.length; i++) {
 for (let i = 0; i < Providers.length; i++) {
   const Provider = Providers[i]
   const providerName = providersName[i]
-  if (Provider.isExchange && providerName !== 'exchange.poloniex') continue // Not necessary to test for all ccxt exchange
+
+  if (Provider.isExchange && providerName !== 'exchange.yobit') continue // Not necessary to test for all ccxt exchange
 
   let address = testAddresses[providerName]
   let parameters = testParameters[providerName]
@@ -40,11 +41,11 @@ for (let i = 0; i < Providers.length; i++) {
   if (Provider.isExchange) {
     test(`[${providerName}] Throws empty balances`, async t => {
       const explorer = new Provider(parameters)
-      await t.throws(
+      await t.throwsAsync(() =>
         explorer
           .address(address)
           .fetch(['balances'])
-          .exec(), OnlyEmptyBalancesFound)
+          .exec(), {instanceOf: OnlyEmptyBalancesFound})
     })
   }
   test(`[${providerName}] fetch only balances`, async t => {
@@ -102,22 +103,24 @@ for (let i = 0; i < Providers.length; i++) {
     })
   })
 
-  test(`[${providerName}] Not supported currency`, async t => {
-    const explorer = new Provider(parameters)
+  if (!Provider.isExchange) {
+    test(`[${providerName}] Not supported currency`, async t => {
+      const explorer = new Provider(parameters)
 
-    const fakeTickerName = 'NOT SUPPORTED TICKER'
-    let error
-    if (Provider.dynamicSupportedCurrencies) {
-      error = await t.throws(explorer
+      const fakeTickerName = 'NOT SUPPORTED TICKER'
+      let error
+      if (Provider.dynamicSupportedCurrencies) {
+        error = await t.throwsAsync(() => explorer
           .currency(fakeTickerName)
           .address(address)
           .fetch(['balances'])
-          .exec(), NotSupportedCurrencyError)
-    } else {
-      error = await t.throws(() => explorer.currency(fakeTickerName), NotSupportedCurrencyError)
-    }
-    t.is(error.message, `${fakeTickerName} is not supported`)
-  })
+          .exec(), { instanceOf: NotSupportedCurrencyError })
+      } else {
+        error = await t.throws(() => explorer.currency(fakeTickerName), { instanceOf: NotSupportedCurrencyError })
+      }
+      t.is(error.message, `${fakeTickerName} is not supported`)
+    })
+  }
 
   test(`[${providerName}] Supported currencies`, async t => {
     const provider = new Provider(parameters)
