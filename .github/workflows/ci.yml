@@ -3,7 +3,7 @@ name: Run npm test
 on: [push]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
