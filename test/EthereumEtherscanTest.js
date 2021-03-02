@@ -1,7 +1,7 @@
 const test = require('ava')
 const providers = require('../')
 
-const fixtures = require('./fixtures.json')
+const fixtures = require('./fixtures.js')
 const testAddresses = fixtures.addresses
 
 const providerName = 'ethereum.etherscan'

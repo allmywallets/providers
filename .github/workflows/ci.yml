@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Run npm test
 
 on: [push]
 
@@ -12,4 +12,10 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
       - run: npm ci
-      - run: npm test
+      - shell: bash
+          env:
+            CRYPTOID_API_KEY: ${{ secrets.CRYPTOID_API_KEY }}
+            ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
+            YOBIT_API_KEY: ${{ secrets.YOBIT_API_KEY }}
+            YOBIT_SECRET: ${{ secrets.YOBIT_SECRET }}
+        run: npm test
