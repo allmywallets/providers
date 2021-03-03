@@ -11,7 +11,7 @@ class CryptoID extends AbstractExplorer {
     super()
 
     this.parameters = parameters || {}
-    this.supportedCurrencies = {BTC: {name: 'Bitcoin', ticker: 'BTC'}}
+    this.supportedCurrencies = { BTC: { name: 'Bitcoin', ticker: 'BTC' } }
   }
 
   static get info () {
@@ -29,14 +29,14 @@ class CryptoID extends AbstractExplorer {
   async getSupportedCurrencies () {
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'origin': '.',
+      origin: '.',
       'x-requested-with': '.'
     }
-    const currencies = await this._fetchJson(`${API_URL}/explorer/api.dws?q=summary`, {headers})
+    const currencies = await this._fetchJson(`${API_URL}/explorer/api.dws?q=summary`, { headers })
     const newCurrencies = {}
 
-    for (let curr in currencies) {
-      newCurrencies[curr.toUpperCase()] = {name: currencies[curr].name, ticker: curr.toUpperCase()}
+    for (const curr in currencies) {
+      newCurrencies[curr.toUpperCase()] = { name: currencies[curr].name, ticker: curr.toUpperCase() }
     }
     return newCurrencies
   }
@@ -52,17 +52,17 @@ class CryptoID extends AbstractExplorer {
 
     const headers = {
       'Content-Type': 'application/x-www-form-urlencoded',
-      'origin': '.',
+      origin: '.',
       'x-requested-with': '.'
     }
 
     const balances = []
     const promises = []
     this.tickers.forEach(async ticker => {
-      promises.push(this._fetchJson(`${API_URL}/${ticker.toLowerCase()}/api.dws?q=getbalance&a=${address}&key=${this.parameters.apiKey}`, {headers})
-                                    .catch(() => { throw new NotSupportedCurrencyError(`${ticker} is not supported`) }))
+      promises.push(this._fetchJson(`${API_URL}/${ticker.toLowerCase()}/api.dws?q=getbalance&a=${address}&key=${this.parameters.apiKey}`, { headers })
+        .catch(() => { throw new NotSupportedCurrencyError(`${ticker} is not supported`) }))
     })
-    let apiBalances = await Promise.all(promises)
+    const apiBalances = await Promise.all(promises)
     apiBalances.forEach(balance => {
       balances.push(balance)
     })
