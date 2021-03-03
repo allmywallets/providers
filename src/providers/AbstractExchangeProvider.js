@@ -12,7 +12,7 @@ class AbstractExchangeExplorer extends AbstractExplorer {
     super()
 
     this.selectedCurrencies = []
-    this.supportedCurrencies = {BTC: {name: 'Bitcoin', ticker: 'BTC'}}
+    this.supportedCurrencies = { BTC: { name: 'Bitcoin', ticker: 'BTC' } }
   }
 
   async getSupportedCurrencies () {
@@ -92,14 +92,14 @@ class AbstractExchangeExplorer extends AbstractExplorer {
   }
 
   async _setAllNonZeroBalancesTransactionsWallet (walletIdentifier, wallet) {
-    const {balances, nonZeroBalanceTickers} = await this._getAllNonZeroBalances(walletIdentifier)
+    const { balances, nonZeroBalanceTickers } = await this._getAllNonZeroBalances(walletIdentifier)
 
     if (balances.length === 0) {
       throw new OnlyEmptyBalancesFound('Only empty balances found')
     }
 
     nonZeroBalanceTickers.forEach(ticker => {
-      this.selectedCurrencies.push({name: cryptocurrencies[ticker], ticker})
+      this.selectedCurrencies.push({ name: cryptocurrencies[ticker], ticker })
     })
     wallet.balances = balances
 
@@ -116,8 +116,8 @@ class AbstractExchangeExplorer extends AbstractExplorer {
 
   async exec () {
     if (this.tickers.length === 0) {
-      let promises = []
-      let wallets = []
+      const promises = []
+      const wallets = []
       this._addresses.forEach(walletIdentifier => {
         const wallet = {}
         promises.push(this._setAllNonZeroBalancesTransactionsWallet(walletIdentifier, wallet))

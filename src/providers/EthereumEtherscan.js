@@ -25,7 +25,7 @@ class EthereumEtherscan extends AbstractExplorer {
   }
 
   getSupportedCurrencies () {
-    const currencies = {ETH: {name: 'Ethereum', ticker: 'ETH', decimals: 18}}
+    const currencies = { ETH: { name: 'Ethereum', ticker: 'ETH', decimals: 18 } }
     return Object.assign(currencies, ERC20Token)
   }
 
@@ -47,8 +47,8 @@ class EthereumEtherscan extends AbstractExplorer {
 
     const balances = []
     for (let i = 0; i < this.tickers.length; i++) {
-      let ticker = this.tickers[i]
-      let decimals = this.supportedCurrencies[ticker].decimals || 18
+      const ticker = this.tickers[i]
+      const decimals = this.supportedCurrencies[ticker].decimals || 18
       balances.push(results[i].result / Math.pow(10, decimals))
     }
 
@@ -62,7 +62,7 @@ class EthereumEtherscan extends AbstractExplorer {
       throw apiResTransactions
     }
 
-    for (let tx of apiResTransactions) {
+    for (const tx of apiResTransactions) {
       tx.type = tx.from === this.address ? 'out' : 'in'
 
       tx.id = tx.hash

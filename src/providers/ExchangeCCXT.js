@@ -12,7 +12,7 @@ const ExchangeFactory = {
   },
 
   getExchange: (exchangeName) => {
-    const exchange = new ccxt[exchangeName]({ 'enableRateLimit': true })
+    const exchange = new ccxt[exchangeName]({ enableRateLimit: true })
 
     /**
      * CCXT library exchange
@@ -42,7 +42,7 @@ const ExchangeFactory = {
       }
 
       async getSupportedCurrencies () {
-        let currencies = {}
+        const currencies = {}
         const currencyRes = await exchange.fetchMarkets()
         const markets = Array.isArray(currencyRes) ? currencyRes : Object.values(exchange.markets)
         markets.forEach(market => {
@@ -117,8 +117,8 @@ const ExchangeFactory = {
 
           if (tickers.includes(ticker1) && tickers.includes(ticker2)) {
             promises.push((async () => {
-              let marketTransactionsRes = await exchange.fetchMyTrades(symbol)
-              let marketTransactions = this._parseTransactions(marketTransactionsRes)
+              const marketTransactionsRes = await exchange.fetchMyTrades(symbol)
+              const marketTransactions = this._parseTransactions(marketTransactionsRes)
 
               const index1 = tickers.indexOf(ticker1)
               transactions[index1] = transactions[index1].concat(marketTransactions)

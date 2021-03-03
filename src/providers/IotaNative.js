@@ -28,7 +28,7 @@ class IotaNative extends AbstractExplorer {
   }
 
   getSupportedCurrencies () {
-    return {IOTA: {name: 'Iota', ticker: 'IOTA'}}
+    return { IOTA: { name: 'Iota', ticker: 'IOTA' } }
   }
 
   static getDefaultTicker () {

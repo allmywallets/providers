@@ -6,7 +6,7 @@ const NotSupportedCurrencyError = require('../src/errors/NotSupportedCurrencyErr
 const OnlyEmptyBalancesFound = require('../src/errors/OnlyEmptyBalancesFound')
 
 const providersName = providers.list()
-let Providers = []
+const Providers = []
 for (let i = 0; i < providersName.length; i++) {
   const Provider = providers.providers[providersName[i]]
   Providers[i] = Provider
@@ -18,8 +18,8 @@ for (let i = 0; i < Providers.length; i++) {
 
   if (Provider.isExchange && providerName !== 'exchange.yobit') continue // Not necessary to test for all ccxt exchange
 
-  let address = testAddresses[providerName]
-  let parameters = testParameters[providerName]
+  const address = testAddresses[providerName]
+  const parameters = testParameters[providerName]
 
   test(`[${providerName}] attributes`, async t => {
     const explorer = new Provider(parameters)
@@ -42,16 +42,16 @@ for (let i = 0; i < Providers.length; i++) {
         explorer
           .address(address)
           .fetch(['balances'])
-          .exec(), {instanceOf: OnlyEmptyBalancesFound})
+          .exec(), { instanceOf: OnlyEmptyBalancesFound })
     })
   }
   test(`[${providerName}] fetch only balances`, async t => {
     const explorer = new Provider(parameters)
     if (Provider.isExchange) { explorer.currency('BTC') }
     const res = await explorer
-        .address(address)
-        .fetch(['balances'])
-        .exec()
+      .address(address)
+      .fetch(['balances'])
+      .exec()
 
     t.not(res, undefined)
 
@@ -75,9 +75,9 @@ for (let i = 0; i < Providers.length; i++) {
     const explorer = new Provider(parameters)
     if (Provider.isExchange) { explorer.currency('BTC') }
     const res = await explorer
-        .address(address)
-        .fetch(['transactions'])
-        .exec()
+      .address(address)
+      .fetch(['transactions'])
+      .exec()
 
     t.not(res, undefined)
 
@@ -134,9 +134,9 @@ for (let i = 0; i < Providers.length; i++) {
     const explorer = new Provider(parameters)
     if (Provider.isExchange) { explorer.currency('BTC') }
     const res = await explorer
-        .address(address)
-        .fetch(['balances', 'addresses'])
-        .exec()
+      .address(address)
+      .fetch(['balances', 'addresses'])
+      .exec()
 
     t.not(res, undefined)
 

@@ -48,9 +48,11 @@ class AbstractExplorer {
   async checkAddresses (addresses) {
 
   }
+
   async checkWallets (wallets) {
 
   }
+
   async checkParameters () {
 
   }
@@ -64,7 +66,7 @@ class AbstractExplorer {
    * @returns {[object]}
    */
   getSupportedCurrencies () {
-    return {BTC: {name: 'AbstractExplorerCoin', ticker: 'BTC'}}
+    return { BTC: { name: 'AbstractExplorerCoin', ticker: 'BTC' } }
   }
 
   /**
@@ -198,9 +200,11 @@ class AbstractExplorer {
   async _getBalances (address) {
     throw new Error('This method should be implemented by child class')
   }
+
   async _getTransactions (address) {
     throw new Error('This method should be implemented by child class')
   }
+
   async _getAddresses (address) {
     return this.tickers.map(ticker => address)
   }
@@ -208,9 +212,11 @@ class AbstractExplorer {
   async _setResultBalances (address, result) {
     result.balances = await this._getBalances(address)
   }
+
   async _setResultTransactions (address, result) {
     result.transactions = await this._getTransactions(address)
   }
+
   async _setResultAddresses (address, result) {
     result.addresses = await this._getAddresses(address)
   }
@@ -221,8 +227,8 @@ class AbstractExplorer {
    * @returns {Promise<object>}
    */
   async exec () {
-    let promises = []
-    let wallets = []
+    const promises = []
+    const wallets = []
 
     if (this.tickers.length === 0) {
       this.tickers.push(this.constructor.getDefaultTicker())
