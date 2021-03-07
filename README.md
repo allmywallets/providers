@@ -10,6 +10,7 @@ npm install @allmywallets/providers
 ```
 
 ## Usage
+### Cryptocurrency provider
 ``` js
 const Provider = require('@allmywallets/providers').providers['ethereum.etherscan']
 const provider = new Provider({ apiKey: process.env.ETHERSCAN_API_KEY });
@@ -27,6 +28,22 @@ const provider = new Provider({ apiKey: process.env.ETHERSCAN_API_KEY });
 You can run the code above
 ```
 node demo.js
+```
+
+### DeFi provider
+``` js
+const BSCDeFi = require('@allmywallets/providers').providers['bsc.defi']
+const defi = new BSCDeFi();
+
+(async function () {
+  const platforms = ['pancakeSwap']
+  const platformPools = await defi
+    .address('0x91766b9e7c125e48714c63ed76d3c98ddd633da0')
+    .platforms(platforms)
+    .exec()
+
+  console.log(platformPools)
+}()).catch(console.log)
 ```
 
 ## Run the tests
