@@ -16,6 +16,7 @@ for (let i = 0; i < Providers.length; i++) {
   const Provider = Providers[i]
   const providerName = providersName[i]
 
+  if (providerName === 'bsc.defi') continue
   if (Provider.isExchange && providerName !== 'exchange.yobit') continue // Not necessary to test for all ccxt exchange
 
   const address = testAddresses[providerName]
