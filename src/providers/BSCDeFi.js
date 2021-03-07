@@ -217,7 +217,7 @@ class BVaultChef extends MasterChef {
   async getSinglePendingReward (poolID, walletAddress, rewardID) {
     const pendingReward = await this.contract.methods.pendingReward(poolID, rewardID, walletAddress).call()
     const rewardInfo = await this.contract.methods.rewardPoolInfo(rewardID).call()
-    const token = new Token(rewardInfo['rewardToken'])
+    const token = new Token(rewardInfo.rewardToken)
     await token.init()
 
     const reward = {}
