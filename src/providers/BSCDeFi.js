@@ -100,7 +100,7 @@ async function getTokensEquivalent (lpAddress, lpTokenAmount) {
 }
 
 class MasterChef {
-  constructor (chefABI, address, pendingMethodName, pendingSymbol='') {
+  constructor (chefABI, address, pendingMethodName, pendingSymbol = '') {
     this.address = address
     this.contract = new web3.eth.Contract(chefABI, address)
     this.decoder = new InputDataDecoder(chefABI)
