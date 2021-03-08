@@ -100,11 +100,12 @@ async function getTokensEquivalent (lpAddress, lpTokenAmount) {
 }
 
 class MasterChef {
-  constructor (chefABI, address, pendingMethodName) {
+  constructor (chefABI, address, pendingMethodName, pendingSymbol='') {
     this.address = address
     this.contract = new web3.eth.Contract(chefABI, address)
     this.decoder = new InputDataDecoder(chefABI)
     this.pendingMethodName = pendingMethodName
+    this.pendingSymbol = pendingSymbol
   }
 
   lpTransactions (walletTx, poolID) {
@@ -144,7 +145,10 @@ class MasterChef {
   async getPendingReward (poolID, walletAddress) {
     const pendingReward = await this.contract.methods[this.pendingMethodName](poolID, walletAddress).call()
 
-    const tokenName = this.pendingMethodName.replace('pending', '').toUpperCase()
+    let tokenName = this.pendingSymbol
+    if (tokenName === '') {
+      tokenName = this.pendingMethodName.replace('pending', '').toUpperCase()
+    }
 
     const rewards = {}
     rewards[tokenName] = parseFloat(Web3.utils.fromWei(pendingReward))
@@ -245,7 +249,7 @@ class PancakeSwapChef extends MasterChef {
 }
 
 class PancakeSwapCloneChef extends MasterChef {
-  constructor (address, pendingMethodName) {
+  constructor (address, pendingMethodName, tokenSymbol = '') {
     const newChefABI = pancakeSwapABI.map(method => {
       if (method.name !== 'pendingCake') {
         return method
@@ -259,12 +263,19 @@ class PancakeSwapCloneChef extends MasterChef {
 }
 
 const defiPlatforms = {
+  acryptos: new PancakeSwapCloneChef('0x96c8390BA28eB083A784280227C37b853bc408B7', 'pendingSushi', 'ACS'),
   alpaca: new PancakeSwapCloneChef('0xA625AB01B08ce023B2a342Dbb12a16f2C8489A8F', 'pendingAlpaca'),
+  apeSwap: new PancakeSwapCloneChef('0x5c8D727b265DBAfaba67E050f2f739cAeEB4A6F9', 'pendingCake', 'BANANA'),
   autoFarm: new AutoFarmChef(),
-  pancakeSwap: new PancakeSwapChef(),
   bVault: new BVaultChef(),
+  cafeSwap: new PancakeSwapCloneChef('0xc772955c33088a97D56d0BBf473d05267bC4feBB', 'pendingCake', 'BREW'),
+  coralFarm: new PancakeSwapCloneChef('0x713e34640ef300a0B178a9688458BbA8b1FA35A7', 'pendingCrl'),
   goose: new PancakeSwapCloneChef('0xe70E9185F5ea7Ba3C5d63705784D8563017f2E57', 'pendingEgg'),
-  saltSwap: new PancakeSwapCloneChef('0xB4405445fFAcF2B86BC2bD7D1C874AC739265658', 'pendingSalt')
+  kebab: new PancakeSwapCloneChef('0x76FCeffFcf5325c6156cA89639b17464ea833ECd', 'pendingCake', 'KEBAB'),
+  pancakeSwap: new PancakeSwapChef(),
+  ramen: new PancakeSwapCloneChef('0x97dd424b4628c8d3bd7fcf3a4e974cebba011651', 'pendingCake', 'RAMEN'),
+  saltSwap: new PancakeSwapCloneChef('0xB4405445fFAcF2B86BC2bD7D1C874AC739265658', 'pendingSalt'),
+  slime: new PancakeSwapCloneChef('0x4B0073A79f2b46Ff5a62fA1458AAc86Ed918C80C', 'pendingReward', 'SLIME')
 }
 
 /**

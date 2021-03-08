@@ -6,12 +6,11 @@ const BSCDeFi = require('../').providers[providerName]
 
 test(`[${providerName}] platforms`, async t => {
   const defi = new BSCDeFi()
-  const platforms = ['pancakeSwap', 'autoFarm', 'saltSwap', 'goose', 'alpaca', 'bVault']
+  const platforms = BSCDeFi.availablePlatforms
   const platformPools = await defi
     .address('0xD9d3dd56936F90ea4c7677F554dfEFD45eF6Df0F')
     .platforms(platforms)
     .exec()
-
   t.is(platformPools.length, platforms.length)
   platformPools.forEach(pools => {
     pools.forEach(pool => {
@@ -35,7 +34,7 @@ test(`[${providerName}] platforms`, async t => {
 test(`[${providerName}] not supported platform`, async t => {
   const defi = new BSCDeFi()
   await t.throwsAsync(() => defi
-    .address('0x8b631c499D0160aCD1163122FE14DF0e3FdC5521')
+    .address('0xD9d3dd56936F90ea4c7677F554dfEFD45eF6Df0F')
     .platforms(['notSupported'])
     .exec(), { instanceOf: NotSupportedPlatformError })
 })
