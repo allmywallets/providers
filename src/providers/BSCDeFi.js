@@ -23,6 +23,10 @@ const autoFarmAddress = '0x0895196562C7868C5Be92459FaE7f877ED450452'
 const bVaultABI = require('./resources/abis/bvault.json')
 const bVaultAddress = '0xB390B07fcF76678089cb12d8E615d5Fe494b01Fb' // AdminUpgradeabilityProxy -> BvaultsBank
 
+// Midas Gold
+const midasGoldABI = require('./resources/abis/midasGold.json')
+const midasGoldAddress = '0x8f0A813D39F019a2A98958eDbf5150d3a06Cd20f' // AdminUpgradeabilityProxy -> MdgRewardPool
+
 class Token {
   constructor (address) {
     this.address = address
@@ -175,8 +179,12 @@ class MasterChef {
     }
   }
 
+  async getPoolLength () {
+    return await this.contract.methods.poolLength().call()
+  }
+
   async listStakedPools (walletAddress, tx) {
-    const poolLength = await this.contract.methods.poolLength().call()
+    const poolLength = await this.getPoolLength()
 
     let pools = []
     for (let poolID = 1; poolID < poolLength; poolID++) {
@@ -248,6 +256,16 @@ class PancakeSwapChef extends MasterChef {
   }
 }
 
+class MidasGoldChef extends MasterChef {
+  constructor () {
+    super(midasGoldABI, midasGoldAddress, 'pendingReward', 'MDG')
+  }
+
+  async getPoolLength () {
+    return 21
+  }
+}
+
 class PancakeSwapCloneChef extends MasterChef {
   constructor (address, pendingMethodName, tokenSymbol = '') {
     const newChefABI = pancakeSwapABI.map(method => {
@@ -272,6 +290,7 @@ const defiPlatforms = {
   coralFarm: new PancakeSwapCloneChef('0x713e34640ef300a0B178a9688458BbA8b1FA35A7', 'pendingCrl'),
   goose: new PancakeSwapCloneChef('0xe70E9185F5ea7Ba3C5d63705784D8563017f2E57', 'pendingEgg'),
   kebab: new PancakeSwapCloneChef('0x76FCeffFcf5325c6156cA89639b17464ea833ECd', 'pendingCake', 'KEBAB'),
+  midasGold: new MidasGoldChef(),
   pancakeSwap: new PancakeSwapChef(),
   ramen: new PancakeSwapCloneChef('0x97dd424b4628c8d3bd7fcf3a4e974cebba011651', 'pendingCake', 'RAMEN'),
   saltSwap: new PancakeSwapCloneChef('0xB4405445fFAcF2B86BC2bD7D1C874AC739265658', 'pendingSalt'),
