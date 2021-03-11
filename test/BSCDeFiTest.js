@@ -5,7 +5,7 @@ const providerName = 'bsc.defi'
 const BSCDeFi = require('../').providers[providerName]
 
 test(`[${providerName}] platforms`, async t => {
-  const defi = new BSCDeFi()
+  const defi = new BSCDeFi({ rpcUrl: 'https://bsc-dataseed.binance.org/' })
   const platforms = defi.availablePlatforms()
   const platformPools = await defi
     .address('0xD9d3dd56936F90ea4c7677F554dfEFD45eF6Df0F')

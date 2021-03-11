@@ -14,8 +14,10 @@ const NotSupportedPlatformError = require('../errors/NotSupportedPlatformError')
  * Binance Smart Chain DeFi provider
  */
 class BSCDeFi {
-  constructor (node = 'https://bsc-dataseed1.binance.org:443') {
-    const web3 = new Web3(node)
+  constructor (parameters) {
+    this.parameters = parameters || {}
+    const rpcUrl = this.parameters.rpcUrl || 'https://bsc-dataseed1.binance.org:443'
+    const web3 = new Web3(rpcUrl)
 
     this.defiPlatforms = {
       acryptos: new PancakeSwapCloneChef(web3, '0x96c8390BA28eB083A784280227C37b853bc408B7', 'pendingSushi', 'ACS'),
@@ -56,6 +58,16 @@ class BSCDeFi {
       description: 'Binance Smart Chain DeFi provider',
       hasCORS: true
     }
+  }
+
+  static getProviderParameters () {
+    return [{
+      type: 'input',
+      inputType: 'text',
+      label: 'Binance Smart Chain RPC URL',
+      model: 'rpcUrl',
+      required: false
+    }]
   }
 
   /**
