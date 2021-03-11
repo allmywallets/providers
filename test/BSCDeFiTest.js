@@ -6,7 +6,7 @@ const BSCDeFi = require('../').providers[providerName]
 
 test(`[${providerName}] platforms`, async t => {
   const defi = new BSCDeFi()
-  const platforms = BSCDeFi.availablePlatforms
+  const platforms = defi.availablePlatforms()
   const platformPools = await defi
     .address('0xD9d3dd56936F90ea4c7677F554dfEFD45eF6Df0F')
     .platforms(platforms)
@@ -40,5 +40,6 @@ test(`[${providerName}] not supported platform`, async t => {
 })
 
 test(`[${providerName}] list available platforms`, async t => {
-  t.not(BSCDeFi.availablePlatforms, undefined)
+  const defi = new BSCDeFi()
+  t.not(defi.availablePlatforms(), undefined)
 })
