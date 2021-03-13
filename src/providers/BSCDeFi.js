@@ -90,7 +90,7 @@ class BSCDeFi {
 
   async exec () {
     const txResult = await api.account.txlist(this.walletAddress, 1, 'latest', 1, 10000, 'desc')
-    const walletTransactions = txResult.result
+    const walletTransactions = txResult.result.filter(t => t.isError === '0')
 
     const promises = this.defiPlatformsName.map(platformName => {
       if (!(platformName in this.defiPlatforms)) {
