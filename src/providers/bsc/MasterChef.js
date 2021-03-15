@@ -7,13 +7,17 @@ const LiquidityPool = require('./LiquidityPool')
 const InputDataDecoder = require('ethereum-input-data-decoder')
 
 class MasterChef {
-  constructor (web3, chefABI, address, pendingMethodName, pendingSymbol = '') {
+  constructor (web3, chefABI, address, pendingMethodName = 'pendingCake', pendingSymbol = '') {
     this.web3 = web3
     this.address = address
     this.contract = new web3.eth.Contract(chefABI, address)
     this.decoder = new InputDataDecoder(chefABI)
     this.pendingMethodName = pendingMethodName
+
     this.pendingSymbol = pendingSymbol
+    if (this.pendingSymbol === '') {
+      this.pendingSymbol = this.pendingMethodName.replace('pending', '').toUpperCase()
+    }
   }
 
   lpTransactions (walletTx, poolID) {
@@ -52,14 +56,8 @@ class MasterChef {
 
   async getPendingReward (poolID, walletAddress) {
     const pendingReward = await this.contract.methods[this.pendingMethodName](poolID, walletAddress).call()
-
-    let tokenName = this.pendingSymbol
-    if (tokenName === '') {
-      tokenName = this.pendingMethodName.replace('pending', '').toUpperCase()
-    }
-
     const rewards = {}
-    rewards[tokenName] = parseFloat(Web3.utils.fromWei(pendingReward))
+    rewards[this.pendingSymbol] = parseFloat(Web3.utils.fromWei(pendingReward))
     return rewards
   }
 
@@ -86,7 +84,8 @@ class MasterChef {
 
     const poolRewardPerBlock = Web3.utils.fromWei(BigNumber(allocPoint).dividedBy(this.totalAllocPoint).multipliedBy(this.rewardPerBlock).integerValue().toFixed())
     const userPoolRewardPerBlock = poolRewardPerBlock * pool.share(lpTokenAmount)
-    const rewardPerYear = userPoolRewardPerBlock * 3600 * 24 * 365 / 3
+    const rewardPerYear = {}
+    rewardPerYear[this.pendingSymbol] = userPoolRewardPerBlock * 3600 * 24 * 365 / 3
 
     return {
       poolID, lpTokenAmount, totalDeposited, pendingReward, tokens, rewardPerYear, lpAddress, lpTransactions
@@ -102,9 +101,18 @@ class MasterChef {
     this.totalAllocPoint = await this.contract.methods.totalAllocPoint().call()
 
     try {
-      this.rewardPerBlock = await this.contract.methods.cakePerBlock().call() // TODO change reward per block
+      this.rewardPerBlock = await this.contract.methods[this.pendingSymbol.toLowerCase() + 'PerBlock']().call()
     } catch (e) {
-      this.rewardPerBlock = 0
+      try {
+        this.rewardPerBlock = await this.contract.methods[this.pendingSymbol + 'PerBlock']().call()
+      } catch (e) {
+        try {
+          const ABISymbol = this.pendingMethodName.replace('pending', '').toLowerCase()
+          this.rewardPerBlock = await this.contract.methods[ABISymbol + 'PerBlock']().call()
+        } catch (e) {
+          this.rewardPerBlock = 0
+        }
+      }
     }
 
     let pools = []
