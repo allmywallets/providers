@@ -6,15 +6,17 @@ const MidasGoldChef = require('./bsc/MidasGoldChef')
 const PancakeSwapChef = require('./bsc/PancakeSwapChef')
 const PancakeSwapCloneChef = require('./bsc/PancakeSwapCloneChef')
 
-const api = require('bscscan-api').init('YourApiKey')
+const BSCSCAN_URL = 'https://api.bscscan.com/api'
 
 const NotSupportedPlatformError = require('../errors/NotSupportedPlatformError')
+const AbstractExplorer = require('./AbstractProvider')
 
 /**
  * Binance Smart Chain DeFi provider
  */
-class BSCDeFi {
+class BSCDeFi extends AbstractExplorer {
   constructor (parameters) {
+    super(parameters)
     this.parameters = parameters || {}
     const rpcUrl = this.parameters.rpcUrl || 'https://bsc-dataseed1.binance.org:443'
     const web3 = new Web3(rpcUrl)
@@ -35,6 +37,20 @@ class BSCDeFi {
       saltSwap: new PancakeSwapCloneChef(web3, '0xB4405445fFAcF2B86BC2bD7D1C874AC739265658', 'pendingSalt', 'SALT'),
       slime: new PancakeSwapCloneChef(web3, '0x4B0073A79f2b46Ff5a62fA1458AAc86Ed918C80C', 'pendingReward', 'SLIME')
     }
+  }
+
+  /**
+   * Get the information needed to identify an account
+   * @returns {object}
+   */
+  static getWalletIdentifierParameters () {
+    return [{
+      type: 'input',
+      inputType: 'text',
+      label: 'BSC address',
+      model: 'address',
+      required: true
+    }]
   }
 
   static get isExchange () {
@@ -89,7 +105,10 @@ class BSCDeFi {
   }
 
   async exec () {
-    const txResult = await api.account.txlist(this.walletAddress, 1, 'latest', 1, 10000, 'desc')
+    const txResult = await this._fetchJson(`${BSCSCAN_URL}?module=account&action=txlist&address=${this.walletAddress}&sort=desc&apikey=YourApiKeyToken`)
+    if (txResult.message === 'NOTOK') {
+      throw new Error(txResult.result)
+    }
     const walletTransactions = txResult.result.filter(t => t.isError === '0')
 
     const promises = this.defiPlatformsName.map(platformName => {
