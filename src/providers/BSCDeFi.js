@@ -1,6 +1,7 @@
 const Web3 = require('web3')
 
 const AutoFarmChef = require('./bsc/AutoFarmChef')
+const BunnyChef = require('./bsc/BunnyChef')
 const BVaultChef = require('./bsc/BVaultChef')
 const MidasGoldChef = require('./bsc/MidasGoldChef')
 const PancakeSwapChef = require('./bsc/PancakeSwapChef')
@@ -26,6 +27,7 @@ class BSCDeFi extends AbstractExplorer {
       alpaca: new PancakeSwapCloneChef(web3, '0xA625AB01B08ce023B2a342Dbb12a16f2C8489A8F', 'pendingAlpaca', 'ALPACA'),
       apeSwap: new PancakeSwapCloneChef(web3, '0x5c8D727b265DBAfaba67E050f2f739cAeEB4A6F9', 'pendingCake', 'BANANA'),
       autoFarm: new AutoFarmChef(web3),
+      bunny: new BunnyChef(web3),
       bVault: new BVaultChef(web3),
       cafeSwap: new PancakeSwapCloneChef(web3, '0xc772955c33088a97D56d0BBf473d05267bC4feBB', 'pendingCake', 'BREW'),
       coralFarm: new PancakeSwapCloneChef(web3, '0x713e34640ef300a0B178a9688458BbA8b1FA35A7', 'pendingCrl', 'CRL'),
