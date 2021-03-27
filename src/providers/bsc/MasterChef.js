@@ -96,24 +96,29 @@ class MasterChef {
     return await this.contract.methods.poolLength().call()
   }
 
+  async getRewardPerBlock () {
+    try {
+      return await this.contract.methods[this.pendingSymbol.toLowerCase() + 'PerBlock']().call()
+    } catch (e) {
+      try {
+        return await this.contract.methods[this.pendingSymbol + 'PerBlock']().call()
+      } catch (e) {
+        try {
+          const ABISymbol = this.pendingMethodName.replace('pending', '').toLowerCase()
+          return await this.contract.methods[ABISymbol + 'PerBlock']().call()
+        } catch (e) {
+          console.warn('Pending reward method not found. rewardPerYear is not correctly calculated.', this.address)
+          return 0
+        }
+      }
+    }
+  }
+
   async listStakedPools (walletAddress, tx) {
     const poolLength = await this.getPoolLength()
     this.totalAllocPoint = await this.contract.methods.totalAllocPoint().call()
 
-    try {
-      this.rewardPerBlock = await this.contract.methods[this.pendingSymbol.toLowerCase() + 'PerBlock']().call()
-    } catch (e) {
-      try {
-        this.rewardPerBlock = await this.contract.methods[this.pendingSymbol + 'PerBlock']().call()
-      } catch (e) {
-        try {
-          const ABISymbol = this.pendingMethodName.replace('pending', '').toLowerCase()
-          this.rewardPerBlock = await this.contract.methods[ABISymbol + 'PerBlock']().call()
-        } catch (e) {
-          this.rewardPerBlock = 0
-        }
-      }
-    }
+    this.rewardPerBlock = await this.getRewardPerBlock()
 
     let pools = []
     for (let poolID = 1; poolID < poolLength; poolID++) {

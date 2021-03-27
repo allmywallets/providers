@@ -37,7 +37,8 @@ class BSCDeFi extends AbstractExplorer {
       pancakeSwap: new PancakeSwapChef(web3),
       ramen: new PancakeSwapCloneChef(web3, '0x97dd424b4628c8d3bd7fcf3a4e974cebba011651', 'pendingCake', 'RAMEN'),
       saltSwap: new PancakeSwapCloneChef(web3, '0xB4405445fFAcF2B86BC2bD7D1C874AC739265658', 'pendingSalt', 'SALT'),
-      slime: new PancakeSwapCloneChef(web3, '0x4B0073A79f2b46Ff5a62fA1458AAc86Ed918C80C', 'pendingReward', 'SLIME')
+      slime: new PancakeSwapCloneChef(web3, '0x4B0073A79f2b46Ff5a62fA1458AAc86Ed918C80C', 'pendingReward', 'SLIME', 'slimesPerBlock'),
+      valueDefi: new PancakeSwapCloneChef(web3, '0xd56339F80586c08B7a4E3a68678d16D37237Bd96', 'pendingReward', 'vBSWAP', 'getCurrentRewardPerBlock')
     }
   }
 
